@@ -1,82 +1,151 @@
-#include <stdio.h>     //fuer printf() size_t stderr
-#include <string.h>    //fuer strcpy() memcpy() 
-#include <stdlib.h>    //fuer malloc() free()
+#include <stdio.h>  //fuer printf() size_t stderr
+#include <string.h> //fuer strcpy() memcpy()
+#include <stdlib.h> //fuer malloc() free()
 
-//Compilerschalter: -fsanitize=address -Wall
+// Compilerschalter: -fsanitize=address -Wall
 
-struct stream {
-    char   *str;
-    size_t  size_max;     //Größe des derzeit reservierten Speichers
-    size_t  size_act;     //Benötigter Speicher
-    size_t  alloc_size;   //Heap-Blöcke in vielfachen dieser Größe
+struct stream
+{
+    char *str;
+    size_t size_max;   // Größe des derzeit reservierten Speichers
+    size_t size_act;   // Benötigter Speicher
+    size_t alloc_size; // Heap-Blöcke in vielfachen dieser Größe
 } stream;
 
-void stream_open(size_t alloc_size) {
+void stream_open(size_t alloc_size)
+{
     stream.str = NULL;
-    stream.size_act=0;  //Tatsächliche Größe
-    stream.size_max=0;  //Reservierte Speichergröße
-    stream.alloc_size=alloc_size;
+    stream.size_act = 0; // Tatsächliche Größe
+    stream.size_max = 0; // Reservierte Speichergröße
+    stream.alloc_size = alloc_size;
 }
 
-void stream_close( void ) {
-    if(stream.str)
+void stream_close(void)
+{
+    if (stream.str)
         free(stream.str);
-    stream.str=NULL;
-    stream.size_act=0;
-    stream.size_max=0;
+    stream.str = NULL;
+    stream.size_act = 0;
+    stream.size_max = 0;
 }
 
 void stream_debug(void)
 {
-    unsigned char *ptr_start=(unsigned char *)stream.str;
-    unsigned char *ptr_end  =(unsigned char *)stream.str+stream.size_act;
+    unsigned char *ptr_start = (unsigned char *)stream.str;
+    unsigned char *ptr_end = (unsigned char *)stream.str + stream.size_act;
     printf("\n------------------------------------------\n");
     printf("size_max  =%8zu size_act  =%8zu \n"
            "alloc_size=%8zu buffer    =%p\n",
-           stream.size_max,stream.size_act,
-           stream.alloc_size,stream.str);
-    if(stream.str) 
-        //Je alloc_size eine Zeile ausgeben!
-        for( ;ptr_start<ptr_end ; ptr_start++)
+           stream.size_max, stream.size_act,
+           stream.alloc_size, stream.str);
+    if (stream.str)
+        // Je alloc_size eine Zeile ausgeben!
+        for (; ptr_start < ptr_end; ptr_start++)
             printf("'%c':%02x %s",
-                    *ptr_start>=' '?*ptr_start:'?',
-                         *ptr_start,
-                              ((ptr_start-(unsigned char*)stream.str)%stream.alloc_size)==(stream.alloc_size-1)?"\n":" ");
+                   *ptr_start >= ' ' ? *ptr_start : '?',
+                   *ptr_start,
+                   ((ptr_start - (unsigned char *)stream.str) % stream.alloc_size) == (stream.alloc_size - 1) ? "\n" : " ");
     printf("\n------------------------------------------\n");
 }
 
-typedef enum {STATUS_OK,STATUS_MALLOCFAILED} STATUS;
+typedef enum
+{
+    STATUS_OK,
+    STATUS_MALLOCFAILED
+} STATUS;
 
-STATUS stream_append(const char *append) {
-    if(stream.str==NULL) {
-        stream.size_max= (((strlen(append)+1)/stream.alloc_size)+1)*stream.alloc_size;
-        //62(+1+1)    -> (((       62     +1)/   64            )+1)* 64 =  (0+1)*64=64
-        //63(+1+1)    -> (((       63     +1)/   64            )+1)* 64 =  (1+1)*64=64
-        //64(+1+1)    -> (((       64     +1)/   64            )+1)* 64 =  (1+1)*64=128
-        stream.str=malloc(stream.size_max);
-        if(stream.str == NULL)
+STATUS stream_append(const char *append)
+{
+    if (stream.str == NULL)
+    {
+        stream.size_max = (((strlen(append) + 1) / stream.alloc_size) + 1) * stream.alloc_size;
+        // 62(+1+1)    -> (((       62     +1)/   64            )+1)* 64 =  (0+1)*64=64
+        // 63(+1+1)    -> (((       63     +1)/   64            )+1)* 64 =  (1+1)*64=64
+        // 64(+1+1)    -> (((       64     +1)/   64            )+1)* 64 =  (1+1)*64=128
+        stream.str = malloc(stream.size_max);
+
+        if (stream.str == NULL)
             return STATUS_MALLOCFAILED;
-        strcpy(stream.str,append);
-        strcat(stream.str,"\n"); 
-        stream.size_act=strlen(stream.str)+1;
-    } else {
-        //Ihre Aufgabe
-        //Hinweis
-        //Vergrößerung des Speichers (sofern notwendig) wahlweise 
+        strcpy(stream.str, append);
+        strcat(stream.str, "\n");
+        stream.size_act = strlen(stream.str) + 1;
+    }
+    else
+    {
+        char *oldStr = stream.str;
+        stream.size_max = (((strlen(append) + (strlen(stream.str)) + 1) / stream.alloc_size) + 1) * stream.alloc_size;
+        stream.str = malloc(stream.size_max);
+        strcpy(stream.str, oldStr);
+        strcat(stream.str, append);
+        strcat(stream.str, "\n");
+        stream.size_act = strlen(stream.str) + 1;
+        free(oldStr);
+        // Ihre Aufgabe
+        // Hinweis
+        // Vergrößerung des Speichers (sofern notwendig) wahlweise
         //über malloc()+free() oder über realloc()
     }
     return STATUS_OK;
 }
 
-typedef enum {STREAM_MODE_LINE,STREAM_MODE_ALL} STREAM_MODE;
-char *stream_get(STREAM_MODE mode) 
+typedef enum
 {
-    //Ihre Aufgabe
-    
-    return NULL; //Für den Fehlerfall
+    STREAM_MODE_LINE,
+    STREAM_MODE_ALL
+} STREAM_MODE;
+char *stream_get(STREAM_MODE mode)
+{
+    if (mode == STREAM_MODE_ALL)
+    {
+        if (stream.str == NULL)
+        {
+            return NULL;
+        }
+        else
+        {
+            char *tempVar = stream.str;
+            stream.str = NULL;
+            stream.size_act = 0;
+            stream.size_max = 0;
+            return tempVar;
+        }
+    }
+    else if (mode == STREAM_MODE_LINE)
+    {
+        if (stream.str == NULL)
+        {
+            return NULL;
+        }
+        else
+        {
+            int lLength = 0;
+            for (int i = 0; i < stream.size_act; i++)
+            {
+                if (stream.str[i] == '\n')
+                {
+                    lLength = i;
+                    break;
+                }
+            }
+            char *lString = malloc(lLength + 1);
+            for (int i = 0; i < lLength; i++)
+            {
+                lString[i] = stream.str[i];
+            }
+            strcat(stream.str, "\0");
+            char *remString = stream.str + lLength + 1;
+
+            stream.size_act = strlen(stream.str) - lLength;
+            stream.size_max = stream.size_act;
+            stream.str = malloc(stream.size_act);
+            strcpy(stream.str, remString);
+            return lString;
+        }
+    }
+    return NULL; // Für den Fehlerfall
 }
 
-const  char *HELP_STRING = 
+const char *HELP_STRING =
     "Help\n"
     ">>help        --> Ohne Worte\n"
     ">>quit        --> Programm beenden\n"
@@ -85,62 +154,81 @@ const  char *HELP_STRING =
     ">>geta        --> Gesamten Stream auslesen\n"
     ">>debug       --> Darstellung des Inhalts des Streams\n";
 
-int main(int argc, char *argv[]){
-    enum status {OK,KO_FGETS,KO_END} ret=OK;
-    printf("File:"__FILE__ " erstellt am "__DATE__" um "__TIME__ " gestartet\n");
+int main(int argc, char *argv[])
+{
+    enum status
+    {
+        OK,
+        KO_FGETS,
+        KO_END
+    } ret = OK;
+    printf("File:"__FILE__
+           " erstellt am "__DATE__
+           " um "__TIME__
+           " gestartet\n");
     stream_open(16);
-    while(1) {
+    while (1)
+    {
         char input[100];
-        char *arg1,*arg2;
-        
-        if(fgets(input,sizeof input,stdin)==NULL) { 
-            ret=KO_FGETS;
+        char *arg1, *arg2;
+
+        if (fgets(input, sizeof input, stdin) == NULL)
+        {
+            ret = KO_FGETS;
             break;
-        } 
-        arg1=strtok(input," \n");
-        
-        if(arg1==NULL)
+        }
+        arg1 = strtok(input, " \n");
+
+        if (arg1 == NULL)
             continue;
-        else if(!strcasecmp(arg1,"help"))
-            printf("%s",HELP_STRING);
-        else if(!strcasecmp(arg1,"quit"))
+        else if (!strcasecmp(arg1, "help"))
+            printf("%s", HELP_STRING);
+        else if (!strcasecmp(arg1, "quit"))
             break;
-        else if(!strcasecmp(arg1,"debug"))
+        else if (!strcasecmp(arg1, "debug"))
             stream_debug();
-        else if(!strcasecmp(arg1,"append")) {
-            arg2=strtok(NULL,"\n");
-            if(arg2!=NULL) {
-                if(stream_append(arg2)!=STATUS_OK)
-                    fprintf(stderr,"\e[31mstream_append() Error:\e[30m\n");
+        else if (!strcasecmp(arg1, "append"))
+        {
+            arg2 = strtok(NULL, "\n");
+            if (arg2 != NULL)
+            {
+                if (stream_append(arg2) != STATUS_OK)
+                    fprintf(stderr, "\e[31mstream_append() Error:\e[30m\n");
             }
             else
-                fprintf(stderr,"\e[31mstream_append() Error:\e[30m Missing Operand\n");
+                fprintf(stderr, "\e[31mstream_append() Error:\e[30m Missing Operand\n");
         }
-        else if(!strcasecmp(arg1,"getl")) {
-            char *ret=stream_get(STREAM_MODE_LINE);
-            if(ret!=NULL) {
-                printf("<<%s>>\n",ret);
+        else if (!strcasecmp(arg1, "getl"))
+        {
+            char *ret = stream_get(STREAM_MODE_LINE);
+            if (ret != NULL)
+            {
+                printf("<<%s>>\n", ret);
                 free(ret);
-            } else
-                fprintf(stderr,"\e[31mstream_get() Error:\e[30m\n");
+            }
+            else
+                fprintf(stderr, "\e[31mstream_get() Error:\e[30m\n");
         }
-        else if(!strcasecmp(arg1,"geta")) {
-            char *ret=stream_get(STREAM_MODE_ALL);
-            if(ret!=NULL) {
-                printf("<<%s>>\n",ret);
+        else if (!strcasecmp(arg1, "geta"))
+        {
+            char *ret = stream_get(STREAM_MODE_ALL);
+            if (ret != NULL)
+            {
+                printf("<<%s>>\n", ret);
                 free(ret);
-            } else
-                fprintf(stderr,"\e[31mstream_get() Error:\e[30m\n");
+            }
+            else
+                fprintf(stderr, "\e[31mstream_get() Error:\e[30m\n");
         }
         else
             printf("Invalid Command\n");
     }
     stream_close();
-    const char *retstring[]={
-        [KO_FGETS]   ="Programm mangels Eingabe beendet",
-        [OK]         ="Programm ordnungsgemäß beendet",
-        [KO_END]     ="Unbekannter Rückgabewert",
+    const char *retstring[] = {
+        [KO_FGETS] = "Programm mangels Eingabe beendet",
+        [OK] = "Programm ordnungsgemäß beendet",
+        [KO_END] = "Unbekannter Rückgabewert",
     };
-    printf("%s\n",retstring[ret>KO_END?KO_END:(ret<0?KO_END:ret)]);
+    printf("%s\n", retstring[ret > KO_END ? KO_END : (ret < 0 ? KO_END : ret)]);
     return (int)ret;
 }
