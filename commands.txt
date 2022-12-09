@@ -1,0 +1,3 @@
+fflush(stdout);
+objdump -d kw46 in terminal for assembly code
+make clean //deletes make file 
