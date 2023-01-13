@@ -1,3 +1,20 @@
 fflush(stdout);
 objdump -d kw46 in terminal for assembly code
 make clean //deletes make file 
+
+
+
+
+Ergänzend zu den selbst definierten Makros schreibt der C-Syntax folgende vordefinierten
+Makros vor, welche vom Compiler durch die entsprechenden Gegebenheiten ausgetauscht
+werden:
+__LINE__ ‐‐> Datentyp: int Wird ersetzt durch die aktuelle Zeilennummer, in welcher das
+Makro steht
+__FILE__ ‐‐> Datentyp: char * Wird ersetzt durch den Dateinamen der Datei
+__DATE__ ‐‐> Datentyp: char * Wird ersetzt durch das aktuelle Datum zum Compilezeitpunkt
+__TIME__ ‐‐> Datentyp: char * Wird ersetzt durch die aktuelle Uhrzeit zum Compilezeitpunkt
+__STDC__ ‐‐> Datentyp: int Wert=1, wenn Compiler Standard‐C konform ist
+__STDC_VERSION__ ‐‐> Datentyp: int YYYYMM Jahr und Monat der C‐Version
+(199409 für C89 199901 für C99)
+__func__ (ab C99) ‐‐> Datentyp: char * wird ersetzt durch einen Zeiger auf einen String,
+in welchen der aktuelle Funktiosname enthalten ist

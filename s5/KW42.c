@@ -28,18 +28,26 @@ struct xyz4
     int z;
 } xyz4;
 
-#if 0
+#if 1
 a) Legen sie von jedem Datentyp eine neue Variable an, sofern möglich.
 // kann kein instanz angelegt werden
 struct xyz2 newVariable = {2,3,4};
-//xyz3 kann kein instanz anlegen
-struct xyz4 newVarible ={4,5,6};
+// xyz3 kann kein instanz anlegen
+struct xyz4 newVarible = {4, 5, 6};
 
 b) Was sagen die einzelnen Definitionen aus?
-   struct {};           -->  weder zugreifen or instanz anlegen
-   struct xyz2 {};      -->  zugreifen
-   struct {} xyz3;      -->   nur einmal zugegrifen werden
-   struct xyz4 {} xyz4; -->    kann zugreifen und ein instanz würde schon angelegt
+   struct
+{
+};
+-- > weder zugreifen or instanz anlegen struct xyz2
+{
+};
+-- > zugreifen struct
+{
+} xyz3;
+-- > nur einmal zugegrifen werden struct xyz4
+{
+} xyz4; -->    kann zugreifen und ein instanz würde schon angelegt
 c) Wie sieht die Zuweisung zweier Variablen des identischen Datentyps aus?
 struct xyz2 var1 = {1,2,3};
 struct xyz2 var2 = var1;
@@ -49,7 +57,7 @@ d) Wie sieht der Vergleich zweier Variablen des identischen Datentyps aus?
 
 e) Wie sieht die Zuweisung zweier Variablen unterschiedlichen Datentyps aus (Inhalt der Strukturen ist identisch)?
 struct xyz2 var1 = {1,2,3};
-struct xyz2 var2 = {4,5,6};
+struct xyz2 var2 = {4, 5, 6};
 
 va1.x = var2.x;
 va1.y = var2.y;
@@ -57,11 +65,14 @@ va1.z = var2.z;
 
 f) Wie sieht der Vergleich zweier Variablen unterschiedlichen Datentyps aus (Inhalt der Strukturen ist identisch)?
 struct xyz2 var1 = {1,2,3};
-struct xyz2 var2 = {4,5,6};
-if(var1.x==var2.x && va1.y==var2.y&&var1.z==var2.z){
-    //return true
-}else{
-    //return false
+struct xyz2 var2 = {4, 5, 6};
+if (var1.x == var2.x && va1.y == var2.y && var1.z == var2.z)
+{
+    // return true
+}
+else
+{
+    // return false
 }
 
 g) Wie sieht eine Initialisierung/Zuweisung von neuen Variablen des Datentyps 'struct xyz4' in folgenden Fällen aus:
@@ -123,16 +134,16 @@ d) Alle Strukturelemente werden über einen Offset bezogen auf das erste Struktu
 
 #endif
 
-#if 0
+#if 1
 3) Eine Struktur entspricht einer Klasse bei objektorientierten Sprachen. Beschreiben sie mehrere Unterschiede/Gemeinsamkeiten zwischen der Struktur in C und der Klasse in JAVA.
-//Unterschiede
-//struktur kann nicht beide methoden und Variables beinhalten anders als java klassen
-//in java klassen kann mann Private/public deklarieren (encapsulation ist nicht möglish in strukrtur)
-// Polymorphism ist nicht möglish in struktur in C
+// Unterschiede
+// struktur kann nicht beide methoden und Variables beinhalten anders als java klassen
+// in java klassen kann mann Private/public deklarieren (encapsulation ist nicht möglish in strukrtur)
+//  Polymorphism ist nicht möglish in struktur in C
 
-//gemeinsamkeiten
-//  beide speichern verschiedene variablen
-//  beide können instanziiert werden
+// gemeinsamkeiten
+//   beide speichern verschiedene variablen
+//   beide können instanziiert werden
 
 #endif
 

@@ -1,0 +1,152 @@
+Diese Probeklausur soll nur eine typische Aufgabenstellung für die eigentliche Klausur darstellen. In der eigentlichen Klausur sind ca. 10 Aufgaben mit ggf. mehreren Unterpunkten enthalten, welche über das gesamte Themengebiet der Vorlesung gehen. Bei einigen Fragen geht es um syntaktische Fragen zu C, bei anderen um die Anwendung von C. Die Fragen werden dabei gleichermaßen aus dem Skript (z.B. die mit ??? gekennzeichneten Stellen), aus dem Chat und aus den Übungsaufgaben abgeleitet.
+
+Für jede Frage wird ein eigenes Blatt vorgesehen, so dass sie kein zusätzliches Papier benötigen
+
+
+Hinweise:
+
+Speicherorganisation: Entsprechend der Vorlesung ist die Speicherorganisation als Litte-Endian dargestellt, d.h. an der kleineren Speicheradresse steht das niederwertige Byte. Auch entsprechend den Vorlesungsbeispielen werden die Variablen entsprechend der Auflistungsreihenfolge nahtlos im Speicher direkt hintereinander angelegt (non alignment).
+
+Bei dem Rechnersystem handelt es sich um ein 32-Bit Rechnersystem, d.h. alle Zeiger sind 4-Byte groß. 
+
+Die Datengröße ist wie folgt anzunehmen
+
+Long long 8-Byte
+
+long           4-Byte
+
+int              4-Byte
+
+short         2-Byte
+
+char          1-Byte
+
+Alle von Ihnen zu erstellenden C-Anweisungen sollen ohne Erros und ohne Warnings durch den Compiler übersetzbar sein! Auch darf keine Speicherverletzung (Array-Zugriff) enthalten sein (mit Ausnahme bei der Pointer-Aufgabe)
+
+
+Pointer
+[Bearbeiten]
+
+Gegeben sind folgende C-Anweisungen
+
+int   var1=0x12345678;
+int   var2=0x456789AB;
+int   var3=0x89ABCDEF;
+char *ptr;
+
+a. Die Pointervariable 'ptr' soll mit der Adresse der Variablen 'var1' initialisiert werden.
+
+b. Ausgehend von der dieser nun initialisierten Pointervariablen 'ptr' soll nun ohne erneute Zuweisung dieser Variablen in das niederwertige Byte von 'var3' mittels printf() ausgegeben werden
+
+c. Ausgehend von der initialisierten Pointervariablen 'ptr' soll der Inhalt von Variable 'var2' auf 0xFFCCAA11 gesetzt werden.
+
+d. … Siehe Übungsaufgaben…
+String
+[Bearbeiten]
+
+Gefordert ist eine String Replacefunktion, welche den Inhalt des ersten (String)Übergabeparameter src nach allen vorkommen der Substrings “{file}“ durchsucht und diesen Substring gegen den Inhalt des zweiten (String)Übergabeparameter rpl austauscht. Der neu erzeugte String wird als Zeiger an den Aufrufer zurückgegeben:
+
+		char *strreplace(const char *src, const char *rpl);
+
+Beispiel:
+
+		printf(„%s“,strreplace(„File {file} = {file}.txt“,“src“));
+
+		>>File src = src.txt
+
+Erlaubt ist einzig die Nutzung folgender Funktionen aus der Standard-C Library
+
+size_t strlen(const char *s);
+char *strcpy(const char *dst, char *src);
+char *strchr(const char *s, int c);
+char *strstr(const char *haystack, const char *needle);
+void *malloc(size_t size);
+void free(void *ptr);
+
+OOP
+[Bearbeiten]
+
+Gegeben sei folgende kleine C-Funktionalität
+
+int buf[16];
+int rd=0;
+int wr=0;
+int fifo_put(int value) {
+	if(((fifo_wr+1)&15)==fifo_rd)
+		return -1;
+	fifo_arr[fifo_wr]=value;
+	fifo_wr=(fifo_wr+1)&15;
+	return 0;
+}
+int fifo1_get(int *value) {
+	if(fifo_wr==fifo_rd)
+		return -2;
+	*value=fifo_arr[fifo_rd];
+	fifo_rd=(fifo_rd+1)&15;
+	return 0;
+}
+
+Entsprechend dem Objektorientierten Ansatz soll diese Funktionalität nun so umgeschrieben werden, dass nicht nur ein FIFO sondern beliebig viele FIFO's angelegtund genutzt werden können. Der Konstruktor dieser noch zu erstellenden Klasse soll den Speicher mittels malloc() reservieren.
+Struct
+[Bearbeiten]
+
+Gegeben sei folgendes Programm
+
+	struct {int x,y,z;};
+	struct XYZ2 {int x,y,z;};
+	struct {int x,y,z;} abc3;
+	struct XYZ4 {int x,y,z;} abc4;
+	
+	int main(void) {
+		XYZ2 a;
+		struct XYZ2 b;
+		abc3 c;
+		struct abc4 d;
+		XYZ4.y=7;
+		XYZ4->y=7;
+		abc4.z=3;
+		abc4->z=3;
+	}
+
+	Welche Anweisungen sind korrekt, welche Anweisungen sind Fehlerhaft. Begründen sie ihre Entscheidungen. 
+Syntax
+[Bearbeiten]
+
+Gegeben sei folgendes Programm:
+
+int func1(int a){
+    a*=-2;
+    return a;
+}
+	 
+int main(void)
+{
+int a=2;
+a=(func1(a=7),a>0);
+printf("%d\n",a);       //________________________
+ 
+int b=7;
+b=(b&&2) << (b|2);
+printf("%d\n",b);       //________________________
+	 
+char *str1="hallo";
+char *str2="du"  "da";
+char *str3=str1+str2;
+printf("%p\n",str3);    //________________________
+	 
+}
+
+Geben Sie an, was die printf() Anweisungen ausgeben. Sollte eine fehlerhafte Anweisung enthalten sein, dann beschreiben sie anstatt der printf() Ausgabe den Fehler.
+Präprozessor-Anweisungen
+[Bearbeiten]
+
+Gegeben sei folgendes Programm:
+
+#define ADD(x)   x+x 
+		 
+int main(void) {
+     int a=3;
+     int b=ADD(a++) * ADD(++a);
+}
+
+Welcher Wert beinhalt die Variable b nach Ausführung der entsprechenden Zuweisung

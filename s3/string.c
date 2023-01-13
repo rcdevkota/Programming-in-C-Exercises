@@ -8,74 +8,86 @@ int main(int argc, char *argv[])
     char str2a[] = "1";
     char str2b[] = "12111";
     char str2c[] = "lang";
-#if 0 // Aufgabe 1 Eine beliebige Ganzzahl (bspw. 4711, ‐0, 3000000000) in einen String wandeln (ohne Nutzung von sprintf())
-int i = 0;
-int flag =0;
-long var =-0;
-if(var<0){
-    i=1;
-    var=var*(-1);
-    flag =1;
-}
-if(var == 0){
-    flag=2;
-}
+#if 1 // Aufgabe 1 Eine beliebige Ganzzahl (bspw. 4711, ‐0, 3000000000) in einen String wandeln (ohne Nutzung von sprintf())
+    int i = 0;
+    int flag = 0;
+    long var = -0;
+    if (var < 0)
+    {
+        i = 1;
+        var = var * (-1);
+        flag = 1;
+    }
+    if (var == 0)
+    {
+        flag = 2;
+    }
 
-long tempVar = var;
-while (tempVar){
-tempVar = tempVar/10;
-    i++;  
-}
-if(flag==2){
-     i++;
-}
-tempVar =  var;
-char newString[i+1];
-newString[i]=0;
-int t =i-1;
-for(int j= 0;j<i;j++){
-   int k= tempVar%10;
-    tempVar/=10;
-   newString[t]='0'+k;
-    t--;
-}
-if(flag==1){
-    newString[0]='-';
-}
-if(flag==2){
-     newString[0]='0';
-}
- printf("\n string: %s", newString);
+    long tempVar = var;
+    while (tempVar)
+    {
+        tempVar = tempVar / 10;
+        i++;
+    }
+    if (flag == 2)
+    {
+        i++;
+    }
+    tempVar = var;
+    char newString[i + 1];
+    newString[i] = 0;
+    int t = i - 1;
+    for (int j = 0; j < i; j++)
+    {
+        int k = tempVar % 10;
+        tempVar /= 10;
+        newString[t] = '0' + k;
+        t--;
+    }
+    if (flag == 1)
+    {
+        newString[0] = '-';
+    }
+    if (flag == 2)
+    {
+        newString[0] = '0';
+    }
+    printf("\n string: %s", newString);
 #endif
-#if 0 // Aufgabe 2 Eine beliebige Ganzzahl in einen String wandeln (auf Basis von sprintf())
-int i = 0;
-int flag =0;
-long var =0;
-if(var<0){
-    i=1;
-}
-if(var == 0){
-    flag=2;
-}
+#if 1 // Aufgabe 2 Eine beliebige Ganzzahl in einen String wandeln (auf Basis von sprintf())
+    int i = 0;
+    int flag = 0;
+    long var = 0;
+    if (var < 0)
+    {
+        i = 1;
+    }
+    if (var == 0)
+    {
+        flag = 2;
+    }
 
-long tempVar = var;
-while (tempVar){
-tempVar = tempVar/10;
-    i++;  
-}
-if(flag==2){
-     i++;
-}
-tempVar =  var;
-char newString[i+1];
-//newString[i]=0;
-sprintf(newString,"%i",var);
+    long tempVar = var;
+    while (tempVar)
+    {
+        tempVar = tempVar / 10;
+        i++;
+    }
+    if (flag == 2)
+    {
+        i++;
+    }
+    tempVar = var;
+    char newString[i + 1];
+    // newString[i]=0;
+    sprintf(newString, "%i", var);
 
-if(flag==2){
-     newString[0]='0';
-}
+    if (flag == 2)
+    {
+        newString[0] = '0';
+    }
 
- printf("\n string: %s", newString);
+    printf("\n string: %s", newString);
 #endif
 #if 0 // Aufgabe 3 Den Inhalt eines Strings, welcher eine Zahl enthält (bspw. "1234","‐12",34ab") in eine 
 //Integervariable wandelt (ohne Nutzung von atoi() / strtol() / scanf())
