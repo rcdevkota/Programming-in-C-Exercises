@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     }
     int quersumme = 0;
     char *str = argv[1];
+    // convertinginput string to integer
     int inputNum = atoi(str);
 
     printf("1. Para='%s'\n", str);
