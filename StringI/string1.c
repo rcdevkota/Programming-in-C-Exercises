@@ -3,6 +3,9 @@
 
 // Compiler-Option: -Wall -fsanitize=address
 
+//--> Bitte nächstes mal den Code einrücken/formatieren
+//    Troß voller Punktzahl bitte Kommentare beachten
+
 int main(int argc, char *argv[])
 {
     char str1[] = "HalloWelt";
@@ -27,6 +30,7 @@ for(int j=0;j<strlenStr2;j++,i++){
 }
 destStr[i] ='\0';
 printf("%s\n",destStr);
+//--> Korrekt
 #endif
 #if 0 // Aufgabe 2
 int destStrLen = strlen(str1)+ strlen(str2);
@@ -35,7 +39,7 @@ char destStr[destStrLen +1];
 strcpy(destStr,str1);
 strcat(destStr,str2);
 printf("%s",destStr);
-
+//--> Korrekt
 #endif
 #if 0 // Aufgabe 3
 int strLen1 = strlen(str1);
@@ -43,6 +47,7 @@ char destStr[strLen1+ strlen(str2) +1];
 strcpy(destStr,str1);
 strcpy(destStr+strLen1,str2);
 printf("%s",destStr);
+//--> Korrekt
 #endif
 
 #if 0 // Aufgabe 4
@@ -51,9 +56,10 @@ destStr[0]=0;
 strcat(destStr,str1);
 strcat(destStr,str2);
 printf("%s",destStr);
+//--> Korrekt
 #endif
 
-#if 0 // Aufgabe 5 str2 an str1 anhängen, 
+#if 0 // Aufgabe 5 str2 an str1 anhängen,
 //d.h. kein separaten Speicher für den Zielstring reservieren, sondern str1 als Zielstring nutzen.
 int i=0;
 int j=0;
@@ -67,8 +73,11 @@ while(str2[j]!='\0'){
 }
 str1[i]='\0';
 printf("%s",str1);
-//so könnte mann das implementieren 
+//so könnte mann das implementieren
 //aber str1 hat nicht genug speicer platz
+
+//--> Es war keine mögliche Implementierung nötig, nur eine Erklärung, warum es einen Fehler gibt
+//    Es ist nicht genügend Speicher reserviert und es würde auf fremden Speicher zugegriffen werden
 #endif
 #if 0 // Aufgabe 6
 //str1 und str2 zu einem String verbinden (Konkatenation), wobei für den Zielstring nur 5 Bytes reserviert werden
@@ -76,9 +85,10 @@ printf("%s",str1);
 char destStr[5];
 strcpy(destStr,str1);
 strcat(destStr,str2);
-printf("%s",destStr); 
+printf("%s",destStr);
 
 //die array ist nicht lang genug
+//--> Siehe aufgabe 5
 
 #endif
 #if 0 // Aufgabe 7
@@ -86,7 +96,7 @@ printf("%s",destStr);
     // unter Berücksichtigung der Größe des Zielstrings verbinden. Beispiele für mögliche Zielstrings
     //(d.h. die sichere Konkatenation Funktionalität soll gleichermaßen mit allen 4 Beispielstrings laufen)
 
-    char str7a[5];
+    char str7a[10];
     char str7b[12];
     char str7c[13];
     char str7d[20];
@@ -105,18 +115,22 @@ printf("%s",destStr);
     str7a[i] = 0;
 
     printf("%s", str7a);
+    //--> Korrekt
 
 #endif
 #if 0 // Aufgabe 8
  Parameter n is the number of first bytes/characters to be copied form source string to destination string.
 If there is no string end character then the destination string wont have the null terminator.
  If the source string is less then destination then rest of the bytes are written with null.
+ //--> Etwas undeutlich, soweit aber korrekt
 #endif
 #if 0 // Aufgabe 9
 While appending src string to dest string :
-strncat() writes n+1 bytes to dest (n from src plus the terminating null byte) 
+strncat() writes n+1 bytes to dest (n from src plus the terminating null byte)
 if src contains n or more bytes. So dest must be greater than or equal to strlen(dest)+n+1.
 
+//--> Es geht darum zu versehen, was die Funktionen machen und nicht die Definition von dem MAN-Pages
+//    zu kopieren, leicht umgestellt.
 #endif
 
     return 0;

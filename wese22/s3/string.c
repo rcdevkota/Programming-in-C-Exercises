@@ -22,8 +22,9 @@ int main(int argc, char *argv[])
     {
         flag = 2;
     }
+    m
 
-    long tempVar = var;
+        long tempVar = var;
     while (tempVar)
     {
         tempVar = tempVar / 10;
@@ -89,32 +90,35 @@ int main(int argc, char *argv[])
 
     printf("\n string: %s", newString);
 #endif
-#if 0 // Aufgabe 3 Den Inhalt eines Strings, welcher eine Zahl enthält (bspw. "1234","‐12",34ab") in eine 
-//Integervariable wandelt (ohne Nutzung von atoi() / strtol() / scanf())
+#if 1 // Aufgabe 3 Den Inhalt eines Strings, welcher eine Zahl enthält (bspw. "1234","‐12",34ab") in eine
+    // Integervariable wandelt (ohne Nutzung von atoi() / strtol() / scanf())
 
-int strInt =0;
-char input[]="a1a-2";
-int i=0, j=strlen(input)-1,k=1;
-for(i;i<strlen(input);i++){
-    if(!(input[j]<'0'||input[j]>'9')){
-        int temp =input[j]  - '0';
-        strInt = strInt +(temp*k);
-        k=k*10;    
+    int strInt = 0;
+    char input[] = "a1a-2";
+    int i = 0, j = strlen(input) - 1, k = 1;
+    for (i; i < strlen(input); i++)
+    {
+        if (!(input[j] < '0' || input[j] > '9'))
+        {
+            int temp = input[j] - '0';
+            strInt = strInt + (temp * k);
+            k = k * 10;
+        }
+        j--;
+        // printf("\nintval: %i", temp);
     }
-     j--;
-   // printf("\nintval: %i", temp);   
-}
-if(input[0]=='-'){
-    strInt*=(-1);
-}
-printf("\n final int: %i", strInt);
+    if (input[0] == '-')
+    {
+        strInt *= (-1);
+    }
+    printf("\n final int: %i", strInt);
 #endif
-#if 0 // Aufgabe 4 Den Inhalt eines String, welcher eine Zahl enthält in eine Integervariable wandelt (auf Basis von strtol())
+#if 1 // Aufgabe 4 Den Inhalt eines String, welcher eine Zahl enthält in eine Integervariable wandelt (auf Basis von strtol())
     char *ptr;
-   int ret;
-   char input[]="-111";
-   ret = strtol(input, &ptr, 10);
-   printf("the integer is %i\n", ret);
+    int ret;
+    char input[] = "-111";
+    ret = strtol(input, &ptr, 10);
+    printf("the integer is %i\n", ret);
 #endif
 #if 0 // Aufgabe 5 Den Platzhalter "%s" in einem String (bspw. str1x) durch den Inhalt eines anderen String (bspw. str2x) ersetzt.
     char firstString[] = "%s";
