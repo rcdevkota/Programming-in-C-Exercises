@@ -28,7 +28,7 @@ struct xyz4
     int z;
 } xyz4;
 
-#if 1
+#if 0
 a) Legen sie von jedem Datentyp eine neue Variable an, sofern möglich.
 // kann kein instanz angelegt werden
 struct xyz2 newVariable = {2,3,4};
@@ -104,21 +104,24 @@ struct mainstruct
     } g;
 } h, i[2];
 
-#if 0
+#if 1
 a) Schreiben sie den Debug-Funktion, welche sämtliche Strukturelemente (incl. Substrukturelemente) der Variablen h formatiert ausgibt
-void debug_mainstruct(struct mainstruct var) {
-printf("%i ",var.a);
-for(int i= 0;i<10;i++){
-    printf("%i ",var.b[i]);
-}
-for(int i =0;i<3;i++){
-    printf("%i %s ",var.c[i].integer, var.c[i].str);
-}
+void debug_mainstruct(struct mainstruct var)
+{
+    printf("%i ", var.a);
+    for (int i = 0; i < 10; i++)
+    {
+        printf("%i ", var.b[i]);
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        printf("%i %s ", var.c[i].integer, var.c[i].str);
+    }
 
-for(int i =0;i<3;i++){
-    printf("%i %i %i %s",var.g.d, var.g.e, var.g.f.integer,var.g.f.str);
-}
-
+    for (int i = 0; i < 3; i++)
+    {
+        printf("%i %i %i %s", var.g.d, var.g.e, var.g.f.integer, var.g.f.str);
+    }
 }
 b) Legen sie von 'mainstruct' eine neue Variable k an und initialisieren sie alle Elemente
 (incl. Substrukturelemente) bei der Definition dieser Variablen mit einen
@@ -126,9 +129,9 @@ beliebigen Wert (Zur Selbstkontrolle am besten obige Debug-Funtkion nutzen!)
 
 struct mainstruct k = {1,{1,2,3,4,5,6,7,8,9,0},{{1,"einstring"},{2,"einNeueString"},{3,"nochmalEinstring"}},{2,3,{1,"some random string"}}};
 
-Hilfe: Arrays werden in C wie folgt Initialisiert:   int arr[3]={1,2,3};
+Hilfe : Arrays werden in C wie folgt Initialisiert : int arr[3] = {1, 2, 3};
 c) Überlegen sie sich den benötigten Speicherbedarf, den eine Variable des Datentyps struct mainstruct belegt?
-// die benötigten speicerbedarf für mainstruct 228 bytes
+// 
 d) Alle Strukturelemente werden über einen Offset bezogen auf das erste Strukturelement angesprochen. Welchen Offset haben die einzelnen Strukturelemente?
    (Gerne als Kommentar direkt oben bei der Struktdefinition)
 
