@@ -13,7 +13,7 @@ typedef enum
     DUMP_32A,
 } DUMP_MODE;
 
-int dump(void *start, size_t len, int width, DUMP_MODE mode);
+int dump(void *sta rt, size_t len, int width, DUMP_MODE mode);
 typedef struct
 {
     int x, y, z;
