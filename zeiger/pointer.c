@@ -13,7 +13,7 @@ typedef enum
     DUMP_32A,
 } DUMP_MODE;
 
-int dump(void *sta rt, size_t len, int width, DUMP_MODE mode);
+int dump(void *start, size_t len, int width, DUMP_MODE mode);
 typedef struct
 {
     int x, y, z;
@@ -65,7 +65,21 @@ int main(void)
     //    hier in den Kommentarbereich ein und kommentieren sie, welche
     //    Inhalte/Bytes zu welchen Variablen gehören
     dump(&vari1, (void *)&ptrabc - (void *)&vari1 + sizeof(ptrabc), 8, DUMP_8A);
-
+/*
+    --- Dump   0x404060 ..   0x4040b7 Mode=8-Bit ---
+0x000000000000404060: 67 45 23 01 ab 89 ef cd - gE#����   //vari1(erste 4 bytes)|vars1(2bytes)|vars2(2bytes)
+0x000000000000404068: 61 31 32 07 61 00 00 00 - a12a       //
+0x000000000000404070: 61 62 63 64 65 66 67 68 - abcdefgh
+0x000000000000404078: 69 6a 6b 6c 6d 6e 6f 00 - ijklmno
+0x000000000000404080: fe ff ff ff fd ff ff ff - ��������
+0x000000000000404088: fc ff ff ff 03 00 00 00 - ����
+0x000000000000404090: 01 00 00 00 00 00 00 00 - 
+0x000000000000404098: 00 01 00 00 00 00 00 00 - 
+0x0000000000004040a0: 00 00 01 00 00 00 00 00 - 
+0x0000000000004040a8: fc ff ff ff ff ff ff ff - ��������
+0x0000000000004040b0: fb ff ff ff ff ff ff ff - ��������
+----------
+*/
 // 2) Führen sie nachfolgende Befehle im Block aus
 //    Überlegen sie sich vor Ausführung auf Basis des Speicherdumps
 //    aus der vorherigen Aufgabe die dargestellten Werte für die
@@ -73,7 +87,7 @@ int main(void)
 //    Erklären sie für die markierten Zeilen, wie sich der Wert der
 //    Pointervariablen zusammensetzt und woher der Inhalt
 //    bei der Dereferenzierung stammt
-#if 1
+#if 0
     printf("Adresse von vari1:%p\n", &vari1);
     ptrc = (unsigned char *)&vari1;
     printf("%02hhx\n", *ptrc);
@@ -190,7 +204,7 @@ lok=*ptri;
 fprintf(stderr,"2.Lauf Value=%u\n",lok);
 #endif
 // 9) Erklären sie anhand des Speicherdumps die Ausgabe nachfolgender printf Anweisung
-#if 1
+#if 0
     printf("'%s'\n", &varc1);
 #endif
 
